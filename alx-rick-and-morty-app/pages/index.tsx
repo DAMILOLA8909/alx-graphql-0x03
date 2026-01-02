@@ -3,6 +3,8 @@ import { GET_EPISODES } from "@/graphql/queries"
 import { EpisodeProps } from "@/interfaces"
 import EpisodeCard from "@/components/common/EpisodeCard"
 import { useEffect, useState } from "react"
+import ErrorBoundary from "@/components/ErrorBoundary"
+import ErrorProneComponent from "@/components/ErrorProneComponent"
 
 const Home: React.FC = () => {
   const [page, setPage] = useState<number>(1)
@@ -32,6 +34,25 @@ const Home: React.FC = () => {
 
       {/* Main Content */}
       <main className="flex-grow p-6">
+        
+        {/* Error Boundary Test Section */}
+        <div className="mb-8 p-4 border-2 border-red-500 rounded-lg bg-red-50">
+          <h2 className="text-2xl font-bold text-red-700 mb-2">🧪 ErrorBoundary Test Section</h2>
+          <p className="text-gray-700 mb-3">
+            Below is a component that intentionally throws an error to test ErrorBoundary functionality.
+            If ErrorBoundary is working, you'll see an error message instead of the app crashing.
+          </p>
+          
+          <ErrorBoundary>
+            <ErrorProneComponent />
+          </ErrorBoundary>
+          
+          <p className="mt-3 text-green-600 font-medium">
+            ✅ The rest of the page should work even if the component above throws an error!
+          </p>
+        </div>
+
+        {/* Regular Episodes Content */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {results && results.map(({ id, name, air_date, episode }: EpisodeProps, key: number) => (
             <EpisodeCard
